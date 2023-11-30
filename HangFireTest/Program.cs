@@ -50,7 +50,8 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions()
             User = "testtest",
             Pass = "admin1234"
         }
-    }
+    },
+    IgnoreAntiforgeryToken = true
 });
 
 app.UseHangfireServer();
