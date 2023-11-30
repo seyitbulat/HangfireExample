@@ -1,0 +1,86 @@
+﻿@using Newtonsoft.Json
+@using TestService
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+@model SocketMessage<List<Currency>>
+
+
+<div class="text-center">
+	<h1 class="display-4">Welcome</h1>
+	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+	<p id="time">@Model.Time</p>
+	<div class="currencyTable">
+		<table id="currency" class="table">
+			<thead>
+				<tr>
+					<th scope="col">Döviz</th>
+					<th scope="col">Alış</th>
+					<th scope="col">Satış</th>
+				</tr>
+			</thead>
+			<tbody>
+				@* @foreach (var item in Model.Message)
+				{
+					<tr>
+						<td>@item.Type</td>
+						<td>@item.Buy</td>
+						<td>@item.Sell</td>
+					</tr>
+				} *@
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+@section Scripts {
+	<script src="~/lib/microsoft-signalr/signalr.min.js"></script>
+	<script>
+		var model = @Html.Raw(Json.Serialize(Model));
+
+		var connection = new signalR.HubConnectionBuilder().withUrl("https://currency.service.signalr.net").build();
+		var table = $('#currency').DataTable();
+
+
+		for (var i = 0; i < model.message.length; i++) {
+			var type = model.message[i].type;
+			var buy = model.message[i].buy;
+			var sell = model.message[i].sell;
+			console.log(type);
+			console.log(buy);
+			console.log(sell);
+			table.row.add([
+				type,
+				buy,
+				sell
+			]).draw();
+		}
+
+		connection.on("ReceiveMessage", function (message) {
+			console.log(message);
+			var data = JSON.parse(message);
+			console.log(data.Message[0]);
+			table.clear();
+			for (var i = 0; i < data.Message.length; i++) {
+				var type = data.Message[i].Type;
+				var buy = data.Message[i].Buy;
+				var sell = data.Message[i].Sell;
+				table.row.add([
+					type,
+					buy,
+					sell
+				]).draw();
+			}
+			$('#time').text(data.Time)
+
+		});
+
+
+		connection.start().catch(function (err) {
+			return console.error(err.toString());
+		});
+	</script>
+}
+
