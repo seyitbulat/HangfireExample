@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    y
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
@@ -13,20 +14,17 @@
     <div class="container">
         <div class="container-fluid vh-100 justify-content-between">
             <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
 
 
                     <form class="justify-content-center">
                         <div class="p-4">
                             <div class="input-group mb-3">
-                                <span class="input-group-text bg-primary">
-                                    <i class="fa fa-user text-white"></i>
-                                </span>
+                              
                                 <input id="txtUserName" type="text" class="form-control" placeholder="Kullanıcı Adı">
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text bg-primary">
-                                    <i class="fa fa-key text-white"></i>
-                                </span>
+                              
                                 <input id="txtPassword" type="password" class="form-control" placeholder="Şifre">
                             </div>
 
@@ -40,7 +38,7 @@
                     <div id="divMessages">
 
                     </div>
-         
+                </div>
             </div>
         </div>
 
@@ -67,7 +65,7 @@
                     data: { dto: formDataObject },
                     success: function (response) {
                         if (response.isSuccess) {
-                           /* window.location.href = "/hangfire";*/
+                            /* window.location.href = "/hangfire";*/
                         }
                         else {
                             var content = "<div class='alert alert-danger'>";
