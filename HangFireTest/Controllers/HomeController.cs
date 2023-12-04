@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using HangFireTest.Filters;
 using HangFireTest.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,12 +7,14 @@ using TestService;
 
 namespace HangFireTest.Controllers
 {
+    [SessionExpirationAttribute]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CurrencyService _service;
         private readonly CurrencyTrigger _trigger;
 
+        
         public HomeController(ILogger<HomeController> logger, CurrencyService service, CurrencyTrigger trigger)
         {
             _logger = logger;

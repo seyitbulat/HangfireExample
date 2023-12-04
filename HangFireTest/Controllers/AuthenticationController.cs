@@ -21,7 +21,7 @@ namespace HangFireTest.Controllers
                 string serializedData = JsonSerializer.Serialize(true);
                 byte[] byteArray = Encoding.UTF8.GetBytes(serializedData);
                 HttpContext.Session.Set("hangfireAdmin", byteArray);
-                return Redirect("/hangfire"); 
+                return Json(new { IsSuccess = true });
             }
             else
             {

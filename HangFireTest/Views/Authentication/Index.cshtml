@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    y
+    
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
@@ -31,7 +31,7 @@
                             <button id="btnLogIn" class="btn btn-primary text-center mt-2" type="button">
                                 Oturum Aç
                             </button>
-
+                           
 
                         </div>
                     </form>
@@ -65,7 +65,7 @@
                     data: { dto: formDataObject },
                     success: function (response) {
                         if (response.isSuccess) {
-                            /* window.location.href = "/hangfire";*/
+                            window.location.href = "https://localhost:44384/hangfire";
                         }
                         else {
                             var content = "<div class='alert alert-danger'>";
@@ -82,6 +82,8 @@
                 });
 
             });
+            
+          
         });
 
 
