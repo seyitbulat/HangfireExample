@@ -1,20 +1,89 @@
-﻿<div class="container">
-    <div class="card">
-        <h2>Giriş Yap</h2>
-        <form>
-            <div class="form-group">
-                <label for="email">E-posta Adresi</label>
-                <input type="email" class="form-control" id="email" placeholder="E-posta adresinizi girin">
-            </div>
-            <div class="form-group">
-                <label for="password">Şifre</label>
-                <input type="password" class="form-control" id="password" placeholder="Şifrenizi girin">
-            </div>
+﻿﻿@{ Layout = null;}
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary login-btn">Giriş Yap</button>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+
+    <div class="container">
+        <div class="container-fluid vh-100 justify-content-between">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+
+
+                    <form class="justify-content-center">
+                        <div class="p-4">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-primary">
+                                    <i class="fa fa-user text-white"></i>
+                                </span>
+                                <input id="txtUserName" type="text" class="form-control" placeholder="Kullanıcı Adı">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-primary">
+                                    <i class="fa fa-key text-white"></i>
+                                </span>
+                                <input id="txtPassword" type="password" class="form-control" placeholder="Şifre">
+                            </div>
+
+                            <button id="btnLogIn" class="btn btn-primary text-center mt-2" type="button">
+                                Oturum Aç
+                            </button>
+
+
+                        </div>
+                    </form>
+                    <div id="divMessages">
+
+                    </div>
+         
             </div>
-       
-        </form>
+        </div>
+
     </div>
-</div>
+
+    <script>
+
+        $(document).ready(function () {
+            $("#btnLogIn").click(function () {
+
+                var formDataObject =
+                {
+                    UserName: $("#txtUserName").val(),
+                    Password: $("#txtPassword").val()
+                };
+
+                $.ajax({
+                    url: "/Authentication/LogIn",
+                    method: "post",
+                    dataType: "json",
+                    data: { dto: formDataObject },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                           /* window.location.href = "/hangfire";*/
+                        }
+                        else {
+                            var content = "<div class='alert alert-danger'>";
+
+                            for (var i = 0; i < response.messages.length; i++) {
+                                content += response.messages[i] + "<br />";
+                            }
+
+                            content += "</div>";
+
+                            $("#divMessages").html(content);
+                        }
+                    }
+                });
+
+            });
+        });
+
+
+    </script>
+
+</body>
+</html>
