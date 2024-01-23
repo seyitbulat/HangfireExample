@@ -17,9 +17,9 @@ namespace HangFireTest.Models
 		{
 			var httpContext = context.GetHttpContext();
 
-			var sesTest =  httpContext.Session.GetString("hangfireAdmin");
+			var adminTest =  httpContext.Session.GetString("hangfireAdmin");
 
-			if (string.IsNullOrEmpty(sesTest))
+			if (string.IsNullOrEmpty(adminTest))
 			{
 				context.Response.ContentType = "text/html";
                 context.Response.WriteAsync(GetUnauthorizedHtml());

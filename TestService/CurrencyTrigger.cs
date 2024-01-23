@@ -9,7 +9,7 @@ namespace TestService
         private readonly CurrencyService currencyService;
         public CurrencyTrigger(CurrencyService currencyService)
         {
-            connection = new HubConnectionBuilder().WithUrl("https://localhost:7277/currency").Build();
+            connection = new HubConnectionBuilder().WithUrl("https://localhost:44384/currency").Build();
 
             connection.Closed += async (error) =>
             {

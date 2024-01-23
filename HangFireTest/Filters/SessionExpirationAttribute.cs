@@ -11,10 +11,10 @@ namespace HangFireTest.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var sesTest = filterContext.HttpContext.Session.GetString("hangfireAdmin");
+            var adminTest = filterContext.HttpContext.Session.GetString("hangfireAdmin");
 
             // Kullanıcı oturumu varsa ve URL değişikliği algılandıysa
-            if (sesTest == "true" && UrlChanged(filterContext))
+            if (!(string.IsNullOrEmpty(adminTest)) && UrlChanged(filterContext))
             {
                 // Oturumu sonlandırabilirsiniz
                 filterContext.HttpContext.Session.Clear();

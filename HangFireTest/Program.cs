@@ -1,7 +1,10 @@
 using Hangfire;
+using Hangfire.Logging;
 using HangfireBasicAuthenticationFilter;
 using HangFireTest.Hub;
 using HangFireTest.Models;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 using TestService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,13 +16,21 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
     {
-        builder.WithOrigins("https://hangfiretest20231129152812.azurewebsites.net").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-    });
+        builder.WithOrigins("https://localhost:44384").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+	});
 });
 
-builder.Services.AddSignalR().AddAzureSignalR("Endpoint=https://currency.service.signalr.net;AccessKey=tfT2v6ZPHbw743v0lTTXF6hxW8o9DG5gpenIY2IskDM=;Version=1.0;");
+Log.Logger = new LoggerConfiguration()
+	.MinimumLevel.Error()
+	.WriteTo.File("logs/Log.txt")
+	.CreateLogger();
 
-builder.Services.AddHangfire(x => x.UseSqlServerStorage("Data Source =  DESKTOP-R04PVQ3\\SQLEXPRESS; Database = DbPurchasing; Trusted_Connection = true; TrustServerCertificate = true;"));
+var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection");
+
+
+builder.Services.AddSignalR();
+
+builder.Services.AddHangfire(x => x.UseSqlServerStorage(hangfireConnectionString));
 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<CurrencyService>();
@@ -64,4 +75,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+try
+{
+	app.Run();
+}
+catch (Exception ex)
+{
+
+    throw ex;
+}
